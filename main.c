@@ -12,12 +12,22 @@
 
 #include "rtv1.h"
 
-t_sphere	make_sphere(void)
+t_sphere	make_sphere(t_vec v, float r, t_material mat)
 {
 	t_sphere s;
 
-	s.pos = (t_vec){0, 0, 2.0};
-	s.radius = 1.0;
+	s.pos = v;
+	s.radius = r;
+	s.m = mat;
+	return (s);
+}
+
+t_plane	make_plane(t_vec v, t_material mat)
+{
+	t_plane s;
+
+	s.pos = v;
+	s.m = mat;
 	return (s);
 }
 
@@ -34,7 +44,10 @@ t_window	struct_init(void)
 	wndow.endian = 0;
 	wndow.bytewd = 4 * WINWIDTH;
 	wndow.light = (t_vec){-0.5, -1.0, 0};
-	wndow.sphere = make_sphere();
+	wndow.a = make_sphere((t_vec){-1.0, 0, 2.0}, 0.5,
+		(t_material){0x00803070, 0x00400040, 0x00200020, 10});
+	wndow.b = make_plane((t_vec){0, 1.25, 0},
+		(t_material){0x00203030, 0x00108090, 0x00083020, 16});
 	return (wndow);
 }
 

@@ -55,8 +55,14 @@ t_vec	normalize(t_vec v)
 {
 	float	len;
 
-	len = get_dist(v, (t_vec){0, 0, 0});
+	len = dot(v, v);
 	if (len == 1.0)
 		return (v);
-	return (sc_mult(1.0 / len, v));
+	return (sc_mult(1.0 / sqrt(len), v));
 }
+
+float	sq(float a)
+{
+	return (a * a);
+}
+

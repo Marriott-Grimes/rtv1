@@ -66,3 +66,19 @@ float	sq(float a)
 	return (a * a);
 }
 
+float	quadratic_formula(float a, float b, float c)
+{
+	if (b > sqrt(sq(b) - a * c))
+		return ((b - sqrt(sq(b) - a * c)) / a);
+	else if (b + sqrt(sq(b) - a * c) > 0)
+		return ((b + sqrt(sq(b) - a * c)) / a);
+	else
+		return (0);
+}
+
+t_vec	proj(t_vec v, t_vec perp)
+{
+	return (vec_add(v, sc_mult(-1.0 * dot(perp, v), perp)));
+}
+
+

@@ -6,7 +6,7 @@ ENDFLAGS = -framework OpenGL -framework AppKit
 
 NAME = rtv1
 
-SRCS = main.c draw.c util.c colors.c
+SRCS = main.c draw.c util.c colors.c sphere.c plane.c cyl.c cone.c
 
 OBJ = $(SRCS:.c=.o)
 

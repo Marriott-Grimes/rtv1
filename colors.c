@@ -12,58 +12,55 @@
 
 #include "rtv1.h"
 
-int		gradient(int startcolor, int endcolor, float i)
+t_color		color_scale(t_color c, float i)
 {
-	int alp;
-	int red;
-	int grn;
-	int blu;
-
-	alp = (int)((startcolor & 0xFF000000) * i +
-		(endcolor & 0xFF000000) * (1.0 - i)) & 0xFF000000;
-	red = (int)((startcolor & 0x00FF0000) * i +
-		(endcolor & 0x00FF0000) * (1.0 - i)) & 0x00FF0000;
-	blu = (int)((startcolor & 0x0000FF00) * i +
-		(endcolor & 0x0000FF00) * (1.0 - i)) & 0x0000FF00;
-	grn = (int)((startcolor & 0x000000FF) * i +
-		(endcolor & 0x000000FF) * (1.0 - i)) & 0x000000FF;
-	return (alp + red + blu + grn);
+	if (i < 0)
+		i *= -1.0;
+	c.r *= i;
+	if (c.r > 1.0)
+		c.r = 1.0;
+	c.g *= i;
+	if (c.g > 1.0)
+		c.g = 1.0;
+	c.b *= i;
+	if (c.b > 1.0)
+		c.b = 1.0;
+	return (c);
 }
 
-int		color_scale(int color, float i)
+t_color		color_add(t_color a, t_color b)
 {
-	int alp;
-	int red;
-	int grn;
-	int blu;
-
-	alp = (int)((color & 0xFF000000) * i) & 0xFF000000;
-	red = (int)((color & 0x00FF0000) * i) & 0x00FF0000;
-	blu = (int)((color & 0x0000FF00) * i) & 0x0000FF00;
-	grn = (int)((color & 0x000000FF) * i) & 0x000000FF;
-	return (alp + red + blu + grn);
+	a.r += b.r;
+	if (a.r > 1.0)
+		a.r = 1.0;
+	a.g += b.g;
+	if (a.g > 1.0)
+		a.g = 1.0;
+	a.b += b.b;
+	if (a.b > 1.0)
+		a.b = 1.0;
+	return (a);
 }
 
-int color_add(int a, int b)
+int	color_convert(t_color c)
 {
-	// int alp;
-	int red;
-	int grn;
-	int blu;
+	int	red;
+	int	grn;
+	int	blu;
 
-	// alp = (a >> 6) + (b >> 6);
-	// if (alp > 0x000000FF)
-	// 	alp = 0xFF000000;
-	// else
-	// 	alp = alp << 6;
-	red = (a & 0x00FF0000) + (b & 0x00FF0000);
-	if (red >= 0x01000000)
-		red = 0x00FF0000;
-	blu = (a & 0x0000FF00) + (b & 0x0000FF00);
-	if (blu >= 0x00010000)
-		blu = 0x0000FF00;
-	grn = (a & 0x000000FF) + (b & 0x000000FF);
-	if (grn >= 0x00000100)
-		grn = 0x000000FF;
-	return ((red & 0x00FF0000) + (blu & 0x0000FF00) + (grn & 0x000000FF));
+	c.r *= 255.0;
+	if (c.r > 255.0)
+		c.r = 255.0;
+	c.g *= 255.0;
+	if (c.g > 255.0)
+		c.g = 255.0;
+	c.b *= 255.0;
+	if (c.b > 255.0)
+		c.b = 255.0;
+	red = (int)c.r;
+	red = red * 0x00010000;
+	grn = (int)c.g;
+	grn = grn * 0x00000100;
+	blu = (int)c.b;
+	return (red + grn + blu);
 }

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rtv1.h"
+#include <stdio.h>
 
 int		find_min(float	dist[4], int len)
 {
@@ -60,9 +61,21 @@ void	draw_frame(t_window *w)
 	int x;
 	int y;
 	int *image;
+	int i = -1;
 
 	image = (int *)mlx_get_data_addr(w->buf, &(w->bpp),
 									&(w->bytewd), &(w->endian));
+	while (++i < 4)
+	{
+		printf("%f %f %f\n", w->a[i].pos.x, w->a[i].pos.y, w->a[i].pos.z);
+		printf("%f %f %f\n", w->a[i].axis.x, w->a[i].axis.y, w->a[i].axis.z);
+		printf("%f\n", w->a[i].radius);
+		printf("%f %f %f\n", w->a[i].m.spec.r, w->a[i].m.spec.g, w->a[i].m.spec.b);
+		printf("%f %f %f\n", w->a[i].m.diff.r, w->a[i].m.diff.g, w->a[i].m.diff.b);
+		printf("%f %f %f\n", w->a[i].m.amb.r, w->a[i].m.amb.g, w->a[i].m.amb.b);
+		printf("%d %d\n", w->a[i].m.shine, w->a[i].type);
+
+	}
 	x = 0;
 	while (x < WINWIDTH)
 	{

@@ -46,35 +46,37 @@ typedef	struct	s_material
 	int			shine;
 }				t_material;
 
-typedef	struct	s_sphere
+typedef	struct		s_shape
 {
-	t_vec		pos;
-	float		radius;
-	t_material	m;
-}				t_sphere;
+	t_vec			pos;
+	t_vec			axis;
+	float			radius;
+	t_material		m;
+	unsigned int	type:2;
+}					t_shape;
 
-typedef	struct	s_cylinder
-{
-	t_vec		pos;
-	t_vec		axis;
-	float		radius;
-	t_material	m;
-}				t_cylinder;
+// typedef	struct	s_cylinder
+// {
+// 	t_vec		pos;
+// 	t_vec		axis;
+// 	float		radius;
+// 	t_material	m;
+// }				t_cylinder;
 
-typedef	struct	s_cone
-{
-	t_vec		pos;
-	t_vec		axis;
-	float		theta;
-	t_material	m;
-}				t_cone;
+// typedef	struct	s_cone
+// {
+// 	t_vec		pos;
+// 	t_vec		axis;
+// 	float		theta;
+// 	t_material	m;
+// }				t_cone;
 
-typedef	struct	s_plane
-{
-	t_vec		pos;
-	t_vec		n;
-	t_material	m;
-}				t_plane;
+// typedef	struct	s_plane
+// {
+// 	t_vec		pos;
+// 	t_vec		n;
+// 	t_material	m;
+// }				t_plane;
 
 // typedef	struct	s_scene
 // {
@@ -101,10 +103,7 @@ typedef	struct	s_window
 	int			bytewd;
 	int			endian;
 	t_vec		light;
-	t_sphere	a;
-	t_plane		b;
-	t_cylinder	c;
-	t_cone		d;
+	t_shape		a[4];
 }				t_window;
 
 void	draw_frame(t_window *win_ptr);
@@ -113,6 +112,7 @@ t_vec	sc_mult(float a, t_vec v);
 float	dot(t_vec a, t_vec b);
 float	get_dist(t_vec a, t_vec b);
 t_vec	normalize(t_vec v);
+t_vec	proj(t_vec v, t_vec perp);
 t_color	color_add(t_color a, t_color b);
 t_color	color_scale(t_color c, float i);
 int		color_convert(t_color c);
@@ -127,6 +127,7 @@ int		cyl_color(t_vec v, t_window *w);
 float	cone_intersection(t_vec base, t_vec v, t_window *w);
 int		cone_color(t_vec v, t_window *w);
 int		hit(t_vec base, t_vec ray, t_window *w);
-t_vec	proj(t_vec v, t_vec perp);
+float	ft_atof(char *str);
+void	load_scene(int fd, t_window *w);
 
 #endif

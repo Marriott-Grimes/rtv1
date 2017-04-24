@@ -84,7 +84,7 @@ void	load_scene(int fd, t_window *w)
 	}
 	eof = get_next_line(fd, &line);
 	w->light = read_vector(line);
-	while (eof && i < 4)
+	while (eof && i < NUM)
 	{
 		eof = get_next_line(fd, &line);
 		read_shape(line, i, w);

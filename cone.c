@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-float	cone_intersection(t_vec base, t_vec v, t_window *w)
+float	cone_intersection(t_vec base, t_vec v, int i, t_window *w)
 {
 	t_vec	p;
 	t_vec	ax;
@@ -24,11 +24,11 @@ float	cone_intersection(t_vec base, t_vec v, t_window *w)
 	float	c;
 	float	dist;
 
-	p = vec_add(w->a[3].pos, sc_mult(-1.0, base));
-	ax = w->a[3].axis;
+	p = vec_add(w->a[i].pos, sc_mult(-1.0, base));
+	ax = w->a[i].axis;
 	u = proj(v, ax);
 	q = proj(p, ax);
-	tn = sq(tan(w->a[3].radius));
+	tn = sq(tan(w->a[i].radius));
 	a = dot(u, u) - tn * sq(dot(ax, v));
 	b = dot(q, u) - tn * dot(ax, v) * dot(ax, p);
 	c = dot(q, q) - tn * sq(dot(ax, p));
@@ -38,13 +38,13 @@ float	cone_intersection(t_vec base, t_vec v, t_window *w)
 	return (dist);
 }
 
-t_vec	cone_normal(float t, t_vec v, t_window *w)
+t_vec	cone_normal(float t, t_vec v, int i, t_window *w)
 {
 	t_vec n;
 	t_vec a;
 
-	a = w->a[3].axis;
-	v = vec_add(sc_mult(t, v), sc_mult(-1.0, w->a[3].pos));
+	a = w->a[i].axis;
+	v = vec_add(sc_mult(t, v), sc_mult(-1.0, w->a[i].pos));
 	if (dot(a, v) < 0)
 		a = sc_mult(-1.0, a);
 	n = vec_add(sc_mult(-1.0 * dot(v, v), a),
@@ -52,22 +52,22 @@ t_vec	cone_normal(float t, t_vec v, t_window *w)
 	return (normalize(n));
 }
 
-int		cone_color(t_vec v, t_window *w)
+int		cone_color(t_vec v, int i, t_window *w)
 {
 	t_color	color;
 	float	t;
 	t_vec	N;
 	t_vec	Lm;
 	t_vec	Rm;
-	color = w->a[3].m.amb;
-	t = cone_intersection((t_vec){0, 0, 0}, v, w);
-	N = cone_normal(t, v, w);
+	color = w->a[i].m.amb;
+	t = cone_intersection((t_vec){0, 0, 0}, v, i, w);
+	N = cone_normal(t, v, i, w);
 	Lm = normalize(vec_add(w->light, sc_mult(-t, v)));
 	Rm = vec_add(sc_mult(2.0 * dot(Lm, N), N), sc_mult(-1.0, Lm));
-	if (!hit(sc_mult(t,v), Lm, w) && dot(Lm, N) > 0.0)
-		color = color_add(color, color_scale(w->a[3].m.diff, dot(Lm, N)));
+	if (mini_hit(sc_mult(t,v), Lm, w) == -1 && dot(Lm, N) > 0.0)
+		color = color_add(color, color_scale(w->a[i].m.diff, dot(Lm, N)));
 	if (dot(Lm, N) > 0.0)
-		color = color_add(color, color_scale(w->a[3].m.spec,
-		pow(dot(Rm, normalize(v)), w->a[3].m.shine)));
+		color = color_add(color, color_scale(w->a[i].m.spec,
+		pow(dot(Rm, normalize(v)), w->a[i].m.shine)));
 	return (color_convert(color));
 }

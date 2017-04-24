@@ -2,7 +2,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-ENDFLAGS = -framework OpenGL -framework AppKit
+ENDFLAGS = -framework OpenGL -framework AppKit -fsanitize=address
 
 NAME = rtv1
 

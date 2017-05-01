@@ -47,6 +47,24 @@ typedef	struct		s_material
 	int				shine;
 }					t_material;
 
+typedef	struct		s_conevars
+{
+	t_vec			p;
+	t_vec			u;
+	t_vec			q;
+	float			tn;
+	float			a;
+	float			b;
+	float			c;
+}					t_conevars;
+
+typedef	struct		s_cvars
+{
+	t_vec			n;
+	t_vec			lm;
+	t_vec			rm;
+}					t_cvars;
+
 typedef	struct		s_shape
 {
 	t_vec			pos;
@@ -66,6 +84,8 @@ typedef	struct		s_window
 	int				bpp;
 	int				bytewd;
 	int				endian;
+	t_vec			campos;
+	t_vec			camn;
 	t_vec			light;
 	t_shape			a[7];
 }					t_window;
@@ -74,7 +94,7 @@ void				draw_frame(t_window *win_ptr);
 t_vec				vec_add(t_vec a, t_vec b);
 t_vec				sc_mult(float a, t_vec v);
 float				dot(t_vec a, t_vec b);
-float				get_dist(t_vec a, t_vec b);
+t_vec				cross(t_vec a, t_vec b);
 t_vec				normalize(t_vec v);
 t_vec				proj(t_vec v, t_vec perp);
 t_color				color_add(t_color a, t_color b);
@@ -82,7 +102,9 @@ t_color				color_scale(t_color c, float i);
 int					color_convert(t_color c);
 float				sq(float a);
 float				quadratic_formula(float a, float b, float c);
-float				sphere_intersection(t_vec base, t_vec v, int i, t_window *w);
+float				intersection(t_vec base, t_vec ray, int i, t_window *w);
+float				sphere_intersection(
+					t_vec base, t_vec v, int i, t_window *w);
 float				plane_intersection(t_vec base, t_vec v, int i, t_window *w);
 float				cyl_intersection(t_vec base, t_vec v, int i, t_window *w);
 float				cone_intersection(t_vec base, t_vec v, int i, t_window *w);
@@ -94,5 +116,15 @@ int					hit(t_vec base, t_vec ray, t_window *w);
 int					mini_hit(t_vec base, t_vec ray, t_window *w);
 float				ft_atof(char *str);
 void				load_scene(int fd, t_window *w);
+t_vec				cyl_normal(float t, t_vec v, int i, t_window *w);
+t_vec				cone_normal(float t, t_vec v, int i, t_window *w);
+int					color(t_vec v, int i, t_window *w);
+t_vec				read_vector(char *line);
+char				*next_car(char *s, char c);
+t_vec				rotate(char ax, float a, t_vec v);
+void				rot_tr(t_window *w);
+int					key_stuff(int keycode, void *param);
+t_vec				read_vector(char *line);
+t_color				read_color(char *line);
 
 #endif

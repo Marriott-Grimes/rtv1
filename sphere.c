@@ -20,28 +20,7 @@ float	sphere_intersection(t_vec base, t_vec v, int i, t_window *w)
 	p = vec_add(w->a[i].pos, sc_mult(-1.0, base));
 	dist = 0;
 	if (sq(dot(p, v)) > dot(v, v) * (dot(p, p) - sq(w->a[i].radius)) + 0.01)
-		dist = quadratic_formula(dot(v, v), dot(p, v), dot(p, p) - sq(w->a[i].radius));
+		dist = quadratic_formula(dot(v, v), dot(p, v),
+				dot(p, p) - sq(w->a[i].radius));
 	return (dist);
-}
-
-int		sphere_color(t_vec v, int i, t_window *w)
-{
-	t_color		color;
-	float		t;
-	t_shape		sphere;
-	t_vec		N;
-	t_vec		Lm;
-	t_vec		Rm;
-
-	sphere = w->a[i];
-	color = sphere.m.amb;
-	t = quadratic_formula(dot(v, v), dot(sphere.pos, v), dot(sphere.pos, sphere.pos) - sq(sphere.radius));
-	N = normalize(vec_add(sc_mult(t, v), sc_mult(-1.0, sphere.pos)));
-	Lm = normalize(vec_add(w->light, sc_mult(-t, v)));
-	Rm = vec_add(sc_mult(2.0 * dot(Lm, N), N), sc_mult(-1.0, Lm));
-	if (mini_hit(sc_mult(t,v), Lm, w) == -1 && dot(Lm, N) > 0.0)
-		color = color_add(color, color_scale(sphere.m.diff, dot(Lm, N)));
-	color = color_add(color, color_scale(sphere.m.spec,
-			pow(dot(Rm, normalize(v)), sphere.m.shine)));
-	return (color_convert(color));
 }

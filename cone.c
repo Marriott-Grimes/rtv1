@@ -14,27 +14,19 @@
 
 float	cone_intersection(t_vec base, t_vec v, int i, t_window *w)
 {
-	t_vec	p;
-	t_vec	ax;
-	t_vec	u;
-	t_vec	q;
-	float	tn;
-	float	a;
-	float	b;
-	float	c;
-	float	dist;
+	t_conevars	n;
+	float		dist;
 
-	p = vec_add(w->a[i].pos, sc_mult(-1.0, base));
-	ax = w->a[i].axis;
-	u = proj(v, ax);
-	q = proj(p, ax);
-	tn = sq(tan(w->a[i].radius));
-	a = dot(u, u) - tn * sq(dot(ax, v));
-	b = dot(q, u) - tn * dot(ax, v) * dot(ax, p);
-	c = dot(q, q) - tn * sq(dot(ax, p));
+	n.p = vec_add(w->a[i].pos, sc_mult(-1.0, base));
+	n.u = proj(v, w->a[i].axis);
+	n.q = proj(n.p, w->a[i].axis);
+	n.tn = sq(tan(w->a[i].radius));
+	n.a = dot(n.u, n.u) - n.tn * sq(dot(w->a[i].axis, v));
+	n.b = dot(n.q, n.u) - n.tn * dot(w->a[i].axis, v) * dot(w->a[i].axis, n.p);
+	n.c = dot(n.q, n.q) - n.tn * sq(dot(w->a[i].axis, n.p));
 	dist = 0;
-	if (sq(b) > a * c)
-		dist = quadratic_formula(a, b, c);
+	if (sq(n.b) > n.a * n.c)
+		dist = quadratic_formula(n.a, n.b, n.c);
 	return (dist);
 }
 
@@ -50,24 +42,4 @@ t_vec	cone_normal(float t, t_vec v, int i, t_window *w)
 	n = vec_add(sc_mult(-1.0 * dot(v, v), a),
 		sc_mult(dot(a, v), v));
 	return (normalize(n));
-}
-
-int		cone_color(t_vec v, int i, t_window *w)
-{
-	t_color	color;
-	float	t;
-	t_vec	N;
-	t_vec	Lm;
-	t_vec	Rm;
-	color = w->a[i].m.amb;
-	t = cone_intersection((t_vec){0, 0, 0}, v, i, w);
-	N = cone_normal(t, v, i, w);
-	Lm = normalize(vec_add(w->light, sc_mult(-t, v)));
-	Rm = vec_add(sc_mult(2.0 * dot(Lm, N), N), sc_mult(-1.0, Lm));
-	if (mini_hit(sc_mult(t,v), Lm, w) == -1 && dot(Lm, N) > 0.0)
-		color = color_add(color, color_scale(w->a[i].m.diff, dot(Lm, N)));
-	if (dot(Lm, N) > 0.0)
-		color = color_add(color, color_scale(w->a[i].m.spec,
-		pow(dot(Rm, normalize(v)), w->a[i].m.shine)));
-	return (color_convert(color));
 }

@@ -2,12 +2,13 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-ENDFLAGS = -framework OpenGL -framework AppKit -fsanitize=address
+ENDFLAGS = -framework OpenGL -framework AppKit
 
 NAME = rtv1
 
 SRCS = main.c draw.c util.c colors.c sphere.c plane.c cyl.c cone.c \
-	ft_atof.c load_scene.c
+	ft_atof.c load_scene.c generic_dists.c rotate.c rot_trans_input.c \
+	vector_funs.c read_vec.c
 
 OBJ = $(SRCS:.c=.o)
 

@@ -25,6 +25,8 @@ t_window	struct_init(int argc, char **argv)
 	wndow.bpp = 32;
 	wndow.endian = 0;
 	wndow.bytewd = 4 * WINWIDTH;
+	wndow.campos = (t_vec){0, 0, 0};
+	wndow.camn = (t_vec){0, 0, 1.0};
 	if (argc == 1)
 		fd = open("scene1", O_RDONLY);
 	else
@@ -33,21 +35,23 @@ t_window	struct_init(int argc, char **argv)
 	return (wndow);
 }
 
-int	key_stuff(int keycode, void *param)
+int			key_stuff(int keycode, void *param)
 {
-	t_window *w;
+	t_window	*w;
 
 	w = (t_window *)param;
 	if (keycode == 53)
 		exit(0);
+	if (keycode == 15 || keycode == 17)
+		rot_tr(w);
 	if (keycode == 0)
 		w->light.x = w->light.x - 1.0;
 	if (keycode == 2)
 		w->light.x = w->light.x + 1.0;
 	if (keycode == 1)
-		w->light.y = w->light.y + 1.0;
-	if (keycode == 13)
 		w->light.y = w->light.y - 1.0;
+	if (keycode == 13)
+		w->light.y = w->light.y + 1.0;
 	draw_frame(w);
 	return (0);
 }

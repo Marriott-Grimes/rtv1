@@ -1,24 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.c                                            :+:      :+:    :+:   */
+/*   vector_funs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgrimes <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/14 17:27:50 by mgrimes           #+#    #+#             */
-/*   Updated: 2017/04/14 17:27:52 by mgrimes          ###   ########.fr       */
+/*   Created: 2017/05/01 15:53:02 by mgrimes           #+#    #+#             */
+/*   Updated: 2017/05/01 15:53:08 by mgrimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-float	plane_intersection(t_vec base, t_vec v, int i, t_window *w)
+t_vec	vec_add(t_vec a, t_vec b)
 {
-	t_vec	p;
+	t_vec temp;
 
-	p = vec_add(w->a[i].pos, sc_mult(-1.0, base));
-	if (dot(v, w->a[i].axis) != 0.0 &&
-		dot(p, w->a[i].axis) / dot(v, w->a[i].axis) > 0.0)
-		return (dot(p, w->a[i].axis) / dot(v, w->a[i].axis));
-	return (0);
+	temp.x = a.x + b.x;
+	temp.y = a.y + b.y;
+	temp.z = a.z + b.z;
+	return (temp);
+}
+
+t_vec	sc_mult(float a, t_vec v)
+{
+	v.x *= a;
+	v.y *= a;
+	v.z *= a;
+	return (v);
+}
+
+float	dot(t_vec a, t_vec b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+t_vec	proj(t_vec v, t_vec perp)
+{
+	return (vec_add(v, sc_mult(-1.0 * dot(perp, v), perp)));
 }

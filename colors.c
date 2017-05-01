@@ -42,7 +42,7 @@ t_color		color_add(t_color a, t_color b)
 	return (a);
 }
 
-int	color_convert(t_color c)
+int			color_convert(t_color c)
 {
 	int	red;
 	int	grn;

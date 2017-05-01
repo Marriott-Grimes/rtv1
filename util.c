@@ -12,45 +12,6 @@
 
 #include "rtv1.h"
 
-t_vec	rotate_z(float a, t_vec v)
-{
-	t_vec temp;
-
-	temp.x = cos(a) * v.x - sin(a) * v.y;
-	temp.y = sin(a) * v.x + cos(a) * v.y;
-	temp.z = v.z;
-	return (temp);
-}
-
-t_vec	vec_add(t_vec a, t_vec b)
-{
-	t_vec temp;
-
-	temp.x = a.x + b.x;
-	temp.y = a.y + b.y;
-	temp.z = a.z + b.z;
-	return (temp);
-}
-
-t_vec	sc_mult(float a, t_vec v)
-{
-	v.x *= a;
-	v.y *= a;
-	v.z *= a;
-	return (v);
-}
-
-float	get_dist(t_vec a, t_vec b)
-{
-	return (sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)
-				 + (a.z - b.z) * (a.z - b.z)));
-}
-
-float	dot(t_vec a, t_vec b)
-{
-	return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
-
 t_vec	normalize(t_vec v)
 {
 	float	len;
@@ -76,9 +37,12 @@ float	quadratic_formula(float a, float b, float c)
 		return (0);
 }
 
-t_vec	proj(t_vec v, t_vec perp)
+t_vec	cross(t_vec a, t_vec b)
 {
-	return (vec_add(v, sc_mult(-1.0 * dot(perp, v), perp)));
+	t_vec ans;
+
+	ans.x = a.y * b.z - a.z * b.y;
+	ans.y = a.z * b.x - a.x * b.z;
+	ans.z = a.x * b.y - a.y * b.x;
+	return (ans);
 }
-
-

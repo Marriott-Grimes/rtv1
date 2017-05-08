@@ -12,22 +12,22 @@
 
 #include "rtv1.h"
 
-float	cyl_intersection(t_vec base, t_vec v, int i, t_window *w)
+double	cyl_intersection(t_vec base, t_vec v, int i, t_window *w)
 {
 	t_vec	p;
-	float	dist;
+	double	dist;
 
 	p = vec_add(w->a[i].pos, sc_mult(-1.0, base));
 	p = proj(p, w->a[i].axis);
 	v = proj(v, w->a[i].axis);
 	dist = 0;
-	if (sq(dot(p, v)) > dot(v, v) * (dot(p, p) - sq(w->a[i].radius)) + 0.01)
+	if (sq(dot(p, v)) > dot(v, v) * (dot(p, p) - sq(w->a[i].radius)))
 		dist = quadratic_formula(dot(v, v), dot(p, v),
 								dot(p, p) - sq(w->a[i].radius));
 	return (dist);
 }
 
-t_vec	cyl_normal(float t, t_vec v, int i, t_window *w)
+t_vec	cyl_normal(double t, t_vec v, int i, t_window *w)
 {
 	t_vec	p;
 

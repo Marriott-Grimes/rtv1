@@ -14,7 +14,7 @@
 
 t_vec	normalize(t_vec v)
 {
-	float	len;
+	double	len;
 
 	len = dot(v, v);
 	if (len == 1.0)
@@ -22,27 +22,25 @@ t_vec	normalize(t_vec v)
 	return (sc_mult(1.0 / sqrt(len), v));
 }
 
-float	sq(float a)
+double	sq(double a)
 {
 	return (a * a);
 }
 
-float	quadratic_formula(float a, float b, float c)
+double	quadratic_formula(double a, double b, double c)
 {
-	if (b > sqrt(sq(b) - a * c))
-		return ((b - sqrt(sq(b) - a * c)) / a);
-	else if (b + sqrt(sq(b) - a * c) > 0)
-		return ((b + sqrt(sq(b) - a * c)) / a);
-	else
-		return (0);
-}
+	double t1;
+	double t2;
 
-t_vec	cross(t_vec a, t_vec b)
-{
-	t_vec ans;
-
-	ans.x = a.y * b.z - a.z * b.y;
-	ans.y = a.z * b.x - a.x * b.z;
-	ans.z = a.x * b.y - a.y * b.x;
-	return (ans);
+	t1 = (b + sqrt(sq(b) - a * c)) / a;
+	t2 = (b - sqrt(sq(b) - a * c)) / a;
+	if (0.0 < t2 && t2 < 0.0001)
+		t2 = c / a / t1;
+	else if (0.0 < t1 && t1 < 0.0001)
+		t1 = c / a / t2;
+	if (t2 < 0.0)
+		return (t1);
+	if (t1 < 0.0)
+		return (t2);
+	return (t1 < t2 ? t1 : t2);
 }

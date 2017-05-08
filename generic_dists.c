@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-float	choose_dist(t_vec v, int i, t_window *w)
+double	choose_dist(t_vec v, int i, t_window *w)
 {
 	t_vec z;
 
@@ -27,11 +27,8 @@ float	choose_dist(t_vec v, int i, t_window *w)
 		return (cone_intersection(z, v, i, w));
 }
 
-t_vec	choose_normal(float t, t_vec v, int i, t_window *w)
+t_vec	choose_normal(double t, t_vec v, int i, t_window *w)
 {
-	t_vec z;
-
-	z = (t_vec){0, 0, 0};
 	if (w->a[i].type == 0)
 		return (normalize(vec_add(sc_mult(t, v), sc_mult(-1.0, w->a[i].pos))));
 	if (w->a[i].type == 1)
@@ -42,7 +39,7 @@ t_vec	choose_normal(float t, t_vec v, int i, t_window *w)
 		return (cone_normal(t, v, i, w));
 }
 
-float	intersection(t_vec base, t_vec ray, int i, t_window *w)
+double	intersection(t_vec base, t_vec ray, int i, t_window *w)
 {
 	if (w->a[i].type == 0)
 		return (sphere_intersection(base, ray, i, w));
@@ -57,9 +54,9 @@ float	intersection(t_vec base, t_vec ray, int i, t_window *w)
 int		color(t_vec v, int i, t_window *w)
 {
 	t_color	color;
-	float	t;
+	double	t;
 	t_cvars	c;
-	float	ltdist;
+	double	ltdist;
 	int		index;
 
 	color = w->a[i].m.amb;

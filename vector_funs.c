@@ -22,7 +22,7 @@ t_vec	vec_add(t_vec a, t_vec b)
 	return (temp);
 }
 
-t_vec	sc_mult(float a, t_vec v)
+t_vec	sc_mult(double a, t_vec v)
 {
 	v.x *= a;
 	v.y *= a;
@@ -30,7 +30,7 @@ t_vec	sc_mult(float a, t_vec v)
 	return (v);
 }
 
-float	dot(t_vec a, t_vec b)
+double	dot(t_vec a, t_vec b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }

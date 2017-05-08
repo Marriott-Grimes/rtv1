@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-float	plane_intersection(t_vec base, t_vec v, int i, t_window *w)
+double	plane_intersection(t_vec base, t_vec v, int i, t_window *w)
 {
 	t_vec	p;
 

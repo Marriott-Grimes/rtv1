@@ -39,6 +39,21 @@ void	read_shape(char *line, int i, t_window *w)
 	w->a[i].type = ft_atoi(line);
 }
 
+void	fill_shapes(t_window *w)
+{
+	int i;
+
+	i = 0;
+	while (i < NUM)
+	{
+		w->a[i].pos = (t_vec){0, 0, 0};
+		w->a[i].axis = (t_vec){0, 0, 0};
+		w->a[i].radius = 0;
+		w->a[i].type = -1;
+		i++;
+	}
+}
+
 void	load_scene(int fd, t_window *w)
 {
 	int		eof;
@@ -54,6 +69,7 @@ void	load_scene(int fd, t_window *w)
 		ft_putstr("bad file :(\n");
 		exit(0);
 	}
+	fill_shapes(w);
 	eof = get_next_line(fd, &line);
 	w->light = read_vector(line);
 	while (eof && i < NUM)
@@ -62,4 +78,5 @@ void	load_scene(int fd, t_window *w)
 		read_shape(line, i, w);
 		i++;
 	}
+	w->total = i - 1;
 }

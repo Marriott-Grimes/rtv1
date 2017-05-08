@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-t_vec	rotate_x(float a, t_vec v)
+t_vec	rotate_x(double a, t_vec v)
 {
 	t_vec temp;
 
@@ -22,7 +22,7 @@ t_vec	rotate_x(float a, t_vec v)
 	return (temp);
 }
 
-t_vec	rotate_y(float a, t_vec v)
+t_vec	rotate_y(double a, t_vec v)
 {
 	t_vec temp;
 
@@ -32,7 +32,7 @@ t_vec	rotate_y(float a, t_vec v)
 	return (temp);
 }
 
-t_vec	rotate_z(float a, t_vec v)
+t_vec	rotate_z(double a, t_vec v)
 {
 	t_vec temp;
 
@@ -42,7 +42,7 @@ t_vec	rotate_z(float a, t_vec v)
 	return (temp);
 }
 
-t_vec	rotate(char ax, float a, t_vec v)
+t_vec	rotate(char ax, double a, t_vec v)
 {
 	if (ax == 'x')
 		return (rotate_x(a, v));

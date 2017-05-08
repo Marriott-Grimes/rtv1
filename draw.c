@@ -12,15 +12,15 @@
 
 #include "rtv1.h"
 
-int		find_min(float dist[NUM], int len)
+int		find_min(double dist[NUM], int len)
 {
 	int		ans;
 	int		i;
-	float	min;
+	double	min;
 
 	ans = -1;
 	i = 0;
-	min = 1000.0;
+	min = 1000000.0;
 	while (i < len)
 	{
 		if (dist[i] > 0.0001 && dist[i] < min)
@@ -35,16 +35,16 @@ int		find_min(float dist[NUM], int len)
 
 int		mini_hit(t_vec base, t_vec ray, t_window *w)
 {
-	float	dist[NUM];
+	double	dist[NUM];
 	int		i;
 
 	i = 0;
-	while (i < NUM)
+	while (i < w->total)
 	{
 		dist[i] = intersection(base, ray, i, w);
 		i++;
 	}
-	return (find_min(dist, NUM));
+	return (find_min(dist, w->total));
 }
 
 int		hit(t_vec base, t_vec ray, t_window *w)
@@ -55,19 +55,6 @@ int		hit(t_vec base, t_vec ray, t_window *w)
 	if (i == -1)
 		return (0);
 	return (color(ray, i, w));
-}
-
-t_vec	compute_offset(int x, int y, t_window *w)
-{
-	t_vec hor;
-	t_vec vert;
-
-	hor = rotate('y', -PI / 2.0, w->camn);
-	hor = normalize(proj(hor, (t_vec){0, 1.0, 0}));
-	vert = cross(w->camn, hor);
-	hor = sc_mult((x - WINWIDTH / 2.0) * 0.001, hor);
-	vert = sc_mult((WINHEIGHT / 2.0 - y) * 0.001, vert);
-	return (vec_add(hor, vert));
 }
 
 void	draw_frame(t_window *w)
@@ -85,8 +72,9 @@ void	draw_frame(t_window *w)
 		while (y < WINHEIGHT)
 		{
 			image[x + y * WINWIDTH] =
-				hit(w->campos,
-				normalize(vec_add(compute_offset(x, y, w), w->camn)), w);
+				hit((t_vec){0, 0, 0}, normalize(
+					(t_vec){(x - WINWIDTH / 2.0) * 0.001,
+						(WINHEIGHT / 2.0 - y) * 0.001, 1.0}), w);
 			y++;
 		}
 		x++;

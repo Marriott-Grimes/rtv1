@@ -19,11 +19,11 @@ void	trans(t_window *w)
 
 	ft_putstr("Choose the object you want to translate, ");
 	ft_putstr("with a number between zero and ");
-	ft_putnbr(NUM - 1);
+	ft_putnbr(w->total - 1);
 	ft_putstr("\n");
 	get_next_line(0, &line);
 	i = ft_atoi(line);
-	while (i < 0 || i >= NUM)
+	while (i < 0 || i >= w->total)
 	{
 		ft_putstr("Error: Bad number\n");
 		free(line);
@@ -36,18 +36,18 @@ void	trans(t_window *w)
 	free(line);
 }
 
-int		rot_part_one(void)
+int		rot_part_one(t_window *w)
 {
 	char	*line;
 	int		i;
 
 	ft_putstr("Choose the object you want to rotate, ");
 	ft_putstr("with a number between zero and ");
-	ft_putnbr(NUM - 1);
+	ft_putnbr(w->total - 1);
 	ft_putstr("\n");
 	get_next_line(0, &line);
 	i = ft_atoi(line);
-	while (i < 0 || i >= NUM)
+	while (i < 0 || i >= w->total)
 	{
 		ft_putstr("Error: Bad number\n");
 		free(line);
@@ -64,7 +64,7 @@ void	rot(t_window *w)
 	int		i;
 	char	xyz;
 
-	i = rot_part_one();
+	i = rot_part_one(w);
 	ft_putstr("Choose the axis (x, y, or z)\n");
 	get_next_line(0, &line);
 	xyz = line[0];

@@ -12,11 +12,11 @@
 
 #include "rtv1.h"
 
-float	ft_atof(char *str)
+double	ft_atof(char *str)
 {
-	float	ans;
-	float	counter;
-	float	sign;
+	double	ans;
+	double	counter;
+	double	sign;
 
 	counter = 0.1;
 	sign = 1.0;
@@ -24,7 +24,7 @@ float	ft_atof(char *str)
 		sign = -1.0;
 	if (*str == '-')
 		str++;
-	ans = (float)ft_atoi(str);
+	ans = (double)ft_atoi(str);
 	while ('0' <= *str && *str <= '9')
 		str++;
 	if (*str == '.')
@@ -33,7 +33,7 @@ float	ft_atof(char *str)
 		while ('0' <= *str && *str <= '9')
 		{
 			if (counter > counter * 0.1)
-				ans += counter * (float)(*str - '0');
+				ans += counter * (double)(*str - '0');
 			counter /= 10.0;
 			str++;
 		}
